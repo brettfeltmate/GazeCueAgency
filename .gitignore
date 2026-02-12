@@ -1,0 +1,12 @@
+**/*.pyc
+**/.*
+!.gitignore
+ExpAssets/*.db
+ExpAssets/*.db.backup
+ExpAssets/Data/**
+ExpAssets/EDF/**
+ExpAssets/.versions/**
+ExpAssets/Local
+ExpAssets/Local/**
+.devnotes.md
+Honours Thesis Methods.docx

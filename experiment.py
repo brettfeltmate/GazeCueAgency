@@ -13,6 +13,7 @@ from klibs.KLUserInterface import any_key, ui_request
 from klibs.KLCommunication import message
 from klibs.KLExceptions import TrialException, EyeTrackerError
 from klibs.KLGraphics.KLNumpySurface import NumpySurface
+from klibs.KLAudio import Tone
 
 # typo prophylactics
 LEFT = 'left'
@@ -51,6 +52,7 @@ class GazeCueAgency(klibs.Experiment):
             CENTER: P.screen_c,
         }
 
+        self.tone = Tone(P.tone_duration, P.tone_type)  # type: ignore[attr]
         self.cues = {}
 
         # for cue_type in self.exp_factors.get('cue_type', NA):  # type: ignore[attr]
@@ -124,7 +126,7 @@ class GazeCueAgency(klibs.Experiment):
         self.evm.add_event(TARGET_ON, P.cue_target_asynchrony, after=CUE_ON)  # type: ignore[attr]
         self.evm.add_event(TRIAL_END, P.response_window, after=TARGET_ON)  # type: ignore[attr]
 
-        self.el.drift_correct(target=self.target)  # type: ignore[attr]
+        self.el.drift_correct(target=self.cues[self.trial_deets[CUE_TYPE]]['neutral'])  # type: ignore[attr]
 
     def trial(self):
         self.el.start(trial_number=P.trial_number)  # type: ignore[attr]
@@ -133,6 +135,7 @@ class GazeCueAgency(klibs.Experiment):
             self.is_fixated()
 
         self.draw(CUE_ON)
+        self.tone.play()
 
         if self.trial_deets[CONDITION] == REMOVE:  # type: ignore[attr]
 

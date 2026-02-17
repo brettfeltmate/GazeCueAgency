@@ -88,3 +88,5 @@ cue_duration = 2000
 cue_target_asynchrony = 2000
 # response_window = 1000
 response_window = 2000
+tone_duration = 100
+tone_type = 'sine'

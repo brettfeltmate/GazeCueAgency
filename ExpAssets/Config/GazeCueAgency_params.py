@@ -73,8 +73,8 @@ trials_per_practice_block = 10
 
 # degrees of visual angle
 offset = 5   # from center
-cue_frame_width = 8
-cue_frame_height = 6
+cue_frame_width = 16
+cue_frame_height = 10
 target_size = 1
 target_thick = 0.2
 boundary_radius = 2

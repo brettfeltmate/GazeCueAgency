@@ -13,7 +13,8 @@ from klibs.KLUserInterface import any_key, ui_request
 from klibs.KLCommunication import message
 from klibs.KLExceptions import TrialException, EyeTrackerError
 from klibs.KLGraphics.KLNumpySurface import NumpySurface
-from klibs.KLAudio import Tone
+
+# from klibs.KLAudio import Tone
 
 # typo prophylactics
 LEFT = 'left'
@@ -52,7 +53,7 @@ class GazeCueAgency(klibs.Experiment):
             CENTER: P.screen_c,
         }
 
-        self.tone = Tone(P.tone_duration, P.tone_type)  # type: ignore[attr]
+        # self.tone = Tone(P.tone_duration, P.tone_type)  # type: ignore[attr]
         self.cues = {}
 
         # for cue_type in self.exp_factors.get('cue_type', NA):  # type: ignore[attr]
@@ -135,7 +136,7 @@ class GazeCueAgency(klibs.Experiment):
             self.fixation_check()
 
         self.draw(CUE_ON)
-        self.tone.play()
+        # self.tone.play()
 
         if self.trial_deets[CONDITION] == REMOVE:  # type: ignore[attr]
 

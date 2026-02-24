@@ -132,7 +132,7 @@ class GazeCueAgency(klibs.Experiment):
         self.el.start(trial_number=P.trial_number)  # type: ignore[attr]
 
         while self.evm.before(CUE_ON):
-            self.is_fixated()
+            self.fixation_check()
 
         self.draw(CUE_ON)
         self.tone.play()
@@ -140,12 +140,12 @@ class GazeCueAgency(klibs.Experiment):
         if self.trial_deets[CONDITION] == REMOVE:  # type: ignore[attr]
 
             while self.evm.before(CUE_OFF):
-                self.is_fixated()
+                self.fixation_check()
 
             self.draw(CUE_OFF)
 
         while self.evm.before(TARGET_ON):
-            self.is_fixated()
+            self.fixation_check()
 
         self.draw(TARGET_ON)
 
@@ -161,8 +161,6 @@ class GazeCueAgency(klibs.Experiment):
             self.trial_deets[SACCADE_RT] = saccade.get('end_time') - el_now
 
         self.el.write('trial_end')  # type: ignore[attr]
-
-        print(self.trial_deets)
 
         return self.trial_deets
 
@@ -233,7 +231,7 @@ class GazeCueAgency(klibs.Experiment):
 
         return False
 
-    def is_fixated(self):
+    def fixation_check(self):
         # return True
         kb_q = pump(True)
         el_q = self.el.get_event_queue()  # type: ignore[attr]

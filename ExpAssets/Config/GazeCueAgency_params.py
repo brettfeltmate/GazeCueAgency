@@ -16,7 +16,7 @@ allow_hidpi = True
 #########################################
 # Available Hardware
 #########################################
-eye_tracker_available = False
+eye_tracker_available = True
 eye_tracking = True
 
 #########################################
@@ -46,7 +46,7 @@ multi_session_project = False
 trials_per_block = 5
 blocks_per_experiment = 4
 conditions = ['remain', 'remove']  # the gaze cue
-default_condition = None
+default_condition = 'remain'
 
 #########################################
 # Development Mode Settings
@@ -80,13 +80,9 @@ target_thick = 0.2
 boundary_radius = 2
 
 # event timings (ms)
-# cue_onset = 1000
-cue_onset = 2000
-# cue_duration = 200
-cue_duration = 2000
-# cue_target_asynchrony = 400
-cue_target_asynchrony = 2000
-# response_window = 1000
-response_window = 2000
+cue_onset = 1000
+cue_duration = 200
+cue_target_asynchrony = 400
+response_window = 1000
 tone_duration = 100
 tone_type = 'sine'

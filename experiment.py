@@ -9,7 +9,7 @@ from klibs.KLConstants import EL_SACCADE_END
 from klibs.KLGraphics import fill, flip, blit
 from klibs.KLGraphics import KLDraw as kld
 from klibs.KLUtilities import deg_to_px, pump
-from klibs.KLUserInterface import any_key, ui_request
+from klibs.KLUserInterface import any_key, ui_request, smart_sleep
 from klibs.KLCommunication import message
 from klibs.KLExceptions import TrialException, EyeTrackerError
 from klibs.KLGraphics.KLNumpySurface import NumpySurface
@@ -162,6 +162,8 @@ class GazeCueAgency(klibs.Experiment):
             self.trial_deets[SACCADE_RT] = saccade.get('end_time') - el_now
 
         self.el.write('trial_end')  # type: ignore[attr]
+
+        smart_sleep(P.post_response_window)  # type: ignore[attr]
 
         return self.trial_deets
 

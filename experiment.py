@@ -241,7 +241,7 @@ class GazeCueAgency(klibs.Experiment):
 
         if not self.el.within_boundary(CENTER, event_queue=el_q, valid_events=[EL_GAZE_POS]):  # type: ignore[attr]
             self.el.write('early_fixation_break')  # type: ignore[attr]
-            self.abort_and_recycle_trial('fixation_break')
+            # self.abort_and_recycle_trial('fixation_break')
 
     def abort_and_recycle_trial(self, reason: str):
         self.el.write(f'trial_aborted: {reason}')  # type: ignore[attr]

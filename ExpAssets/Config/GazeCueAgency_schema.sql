@@ -74,6 +74,5 @@ CREATE TABLE errors (
     cue_type text not null,
     cued_side text not null,
     target_location text not null,
-    type_of_error text not null,
-    time_of_error text not null
+    type_of_error text not null
 );

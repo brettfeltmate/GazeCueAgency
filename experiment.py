@@ -36,7 +36,7 @@ SACCADE_RESP = 'saccade_resp'
 NA = 'NA'
 BLOCK_NUM = 'block_num'
 TRIAL_NUM = 'trial_num'
-PRACITICING = 'practicing'
+PRACTICING = 'practicing'
 CONDITION = 'condition'
 REMAIN = 'remain'
 REMOVE = 'remove'
@@ -109,7 +109,7 @@ class GazeCueAgency(klibs.Experiment):
 
     def trial_prep(self):
         self.trial_deets = {}
-        self.trial_deets[PRACITICING] = P.practicing  # type: ignore[attr]
+        self.trial_deets[PRACTICING] = P.practicing  # type: ignore[attr]
         self.trial_deets[CONDITION] = P.condition  # type: ignore[attr]
         self.trial_deets[CUE_TYPE] = self.cue_type  # type: ignore[attr]
         self.trial_deets[CUED_SIDE] = self.cued_side  # type: ignore[attr]
@@ -253,7 +253,7 @@ class GazeCueAgency(klibs.Experiment):
             BLOCK_NUM: P.block_number,
             TRIAL_NUM: P.trial_number,
             CONDITION: P.condition,
-            PRACITICING: P.practicing,
+            PRACTICING: P.practicing,
             CUE_TYPE: self.trial_deets.get(CUE_TYPE, 'NA'),
             CUED_SIDE: self.trial_deets.get(CUED_SIDE, 'NA'),
             TARGET_LOC: self.trial_deets.get(TARGET_LOC, 'NA'),

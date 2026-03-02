@@ -22,8 +22,8 @@ eye_tracking = True
 #########################################
 # Environment Aesthetic Defaults
 #########################################
-default_fill_color = (45, 45, 45, 255)
-default_color = (255, 255, 255, 255)
+default_fill_color = (255, 255, 255, 255)
+default_color = (0, 0, 0, 255)
 default_font_size = 1
 default_font_unit = 'deg'
 default_font_name = 'Hind-Medium'

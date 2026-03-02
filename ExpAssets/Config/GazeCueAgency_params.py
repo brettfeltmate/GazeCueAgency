@@ -42,8 +42,7 @@ saccadic_motion_threshold = 0.15
 # Experiment Structure
 #########################################
 multi_session_project = False
-# trials_per_block = 50
-trials_per_block = 5
+trials_per_block = 120
 blocks_per_experiment = 4
 conditions = ['remain', 'remove']  # the gaze cue
 default_condition = 'remain'
@@ -72,12 +71,12 @@ append_hostname = False
 trials_per_practice_block = 10
 
 # degrees of visual angle
-offset = 5   # from center
 cue_frame_width = 16
 cue_frame_height = 10
 target_size = 1
 target_thick = 0.2
 boundary_radius = 2
+offset = cue_frame_width // 2 + 4  # e.g., 4 dva from edge of cue frame
 
 # event timings (ms)
 cue_onset = 1000

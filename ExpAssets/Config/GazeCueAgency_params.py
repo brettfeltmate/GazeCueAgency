@@ -42,7 +42,7 @@ saccadic_motion_threshold = 0.15
 # Experiment Structure
 #########################################
 multi_session_project = False
-trials_per_block = 120
+trials_per_block = 96
 blocks_per_experiment = 4
 conditions = ['remain', 'remove']  # the gaze cue
 default_condition = 'remain'

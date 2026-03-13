@@ -14,8 +14,6 @@ from klibs.KLCommunication import message
 from klibs.KLExceptions import TrialException, EyeTrackerError
 from klibs.KLGraphics.KLNumpySurface import NumpySurface
 
-# from klibs.KLAudio import Tone
-
 # typo prophylactics
 LEFT = 'left'
 RIGHT = 'right'
@@ -127,16 +125,16 @@ class GazeCueAgency(klibs.Experiment):
         self.evm.add_event(TARGET_ON, P.cue_target_asynchrony, after=CUE_ON)  # type: ignore[attr]
         self.evm.add_event(TRIAL_END, P.response_window, after=TARGET_ON)  # type: ignore[attr]
 
-        self.el.drift_correct(target=self.cues[self.trial_deets[CUE_TYPE]]['neutral'])  # type: ignore[attr]
+        self.el.drift_correct(  # type: ignore[attr]
+            target=self.cues[self.trial_deets[CUE_TYPE]]['neutral']
+        )
 
     def trial(self):
-        self.el.start(trial_number=P.trial_number)  # type: ignore[attr]
 
         while self.evm.before(CUE_ON):
             self.fixation_check()
 
         self.draw(CUE_ON)
-        # self.tone.play()
 
         if self.trial_deets[CONDITION] == REMOVE:  # type: ignore[attr]
 
@@ -161,14 +159,10 @@ class GazeCueAgency(klibs.Experiment):
             self.trial_deets[SACCADE_RESP] = saccade.get('label')
             self.trial_deets[SACCADE_RT] = saccade.get('end_time') - el_now
 
-        self.el.write('trial_end')  # type: ignore[attr]
-
-        smart_sleep(P.post_response_window)  # type: ignore[attr]
-
         return self.trial_deets
 
     def trial_clean_up(self):
-        pass
+        smart_sleep(P.post_response_window)  # type: ignore[attr]
 
     def clean_up(self):
         pass

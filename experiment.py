@@ -6,12 +6,12 @@ import klibs
 from klibs import EL_GAZE_POS, P
 from klibs.KLBoundary import CircleBoundary
 from klibs.KLConstants import EL_SACCADE_END
-from klibs.KLGraphics import fill, flip, blit
+from klibs.KLGraphics import fill, flip, blit, clear
 from klibs.KLGraphics import KLDraw as kld
 from klibs.KLUtilities import deg_to_px, pump
 from klibs.KLUserInterface import any_key, ui_request, smart_sleep
 from klibs.KLCommunication import message
-from klibs.KLExceptions import TrialException, EyeTrackerError
+from klibs.KLExceptions import TrialException
 from klibs.KLGraphics.KLNumpySurface import NumpySurface
 
 # typo prophylactics
@@ -44,14 +44,16 @@ WHITE = (255, 255, 255, 255)
 
 class GazeCueAgency(klibs.Experiment):
     def setup(self):
+
         offset_px = deg_to_px(P.offset)  # type: ignore[attr]
+
         self.locs = {
             LEFT: (P.screen_c[0] - offset_px, P.screen_c[1]),  # type: ignore[attr]
             RIGHT: (P.screen_c[0] + offset_px, P.screen_c[1]),  # type: ignore[attr]
             CENTER: P.screen_c,
         }
 
-        # self.tone = Tone(P.tone_duration, P.tone_type)  # type: ignore[attr]
+        self.tone = Tone(P.tone_duration, P.tone_type)  # type: ignore[attr]
         self.cues = {}
 
         # for cue_type in self.exp_factors.get('cue_type', NA):  # type: ignore[attr]
@@ -135,6 +137,7 @@ class GazeCueAgency(klibs.Experiment):
             self.fixation_check()
 
         self.draw(CUE_ON)
+        self.tone.play()
 
         if self.trial_deets[CONDITION] == REMOVE:  # type: ignore[attr]
 
@@ -158,10 +161,18 @@ class GazeCueAgency(klibs.Experiment):
         if saccade:
             self.trial_deets[SACCADE_RESP] = saccade.get('label')
             self.trial_deets[SACCADE_RT] = saccade.get('end_time') - el_now
+        else:
+            fill()
+            message(
+                'No response detected.', registration=5, location=P.screen_c
+            )
+            flip()
+            smart_sleep(1000)
 
         return self.trial_deets
 
     def trial_clean_up(self):
+        clear()
         smart_sleep(P.post_response_window)  # type: ignore[attr]
 
     def clean_up(self):
@@ -214,8 +225,8 @@ class GazeCueAgency(klibs.Experiment):
         )
 
         if saccade_to_target and saccade_to_nontarget:
-            raise EyeTrackerError(
-                'Saccade to both target and nontarget boundaries detected.'
+            raise RuntimeError(
+                'Saccades to both target and nontarget detected'
             )
 
         if saccade_to_target:
@@ -237,23 +248,14 @@ class GazeCueAgency(klibs.Experiment):
 
         if not self.el.within_boundary(CENTER, event_queue=el_q, valid_events=[EL_GAZE_POS]):  # type: ignore[attr]
             self.el.write('early_fixation_break')  # type: ignore[attr]
-            # self.abort_and_recycle_trial('fixation_break')
 
-    def abort_and_recycle_trial(self, reason: str):
-        self.el.write(f'trial_aborted: {reason}')  # type: ignore[attr]
+            fill()
+            message(
+                'Keep your gaze on the face until the target appears.',
+                registration=5,
+                location=P.screen_c,
+            )
+            flip()
 
-        err_data = {
-            'participant_id': P.participant_id,
-            BLOCK_NUM: P.block_number,
-            TRIAL_NUM: P.trial_number,
-            CONDITION: P.condition,
-            PRACTICING: P.practicing,
-            CUE_TYPE: self.trial_deets.get(CUE_TYPE, 'NA'),
-            CUED_SIDE: self.trial_deets.get(CUED_SIDE, 'NA'),
-            TARGET_LOC: self.trial_deets.get(TARGET_LOC, 'NA'),
-            'type_of_error': reason,
-        }
-
-        self.database.insert(data=err_data, table='errors')  # type: ignore[attr]
-
-        raise TrialException(f'Trial aborted: {reason}')
+            smart_sleep(1000)
+            raise TrialException('early_fixation_break')

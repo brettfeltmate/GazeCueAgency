@@ -94,6 +94,9 @@ class GazeCueAgency(klibs.Experiment):
                 ),
             ]
         )
+        
+        if P.run_practice_blocks:
+            self.insert_practice_blocks([1], P.trials_per_practice_block)
 
     def block(self):
         fill()
